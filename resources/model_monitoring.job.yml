@@ -1,0 +1,20 @@
+# Lecture 1: serverless Delta ingestion for the model incident investigator.
+resources:
+  jobs:
+    prepare_monitoring:
+      name: job-model-monitoring-luukbuijsman-${bundle.target}
+      budget_policy_id: "b116bd1b-cc7b-3bb5-825c-c5213a2e5315"
+      environments:
+        - environment_key: default
+          spec:
+            # Lecture 1 specifies environment version 5 (existing hello job uses 6).
+            environment_version: "5"
+            dependencies:
+              - ../dist/*.whl
+      tasks:
+        - task_key: prepare_monitoring
+          environment_key: default
+          notebook_task:
+            notebook_path: deployment_notebooks/prepare_monitoring_data.py
+            base_parameters:
+              env: ${bundle.target}
